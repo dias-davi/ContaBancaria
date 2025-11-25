@@ -1,170 +1,280 @@
 object frmPrincipal: TfrmPrincipal
   Left = 0
   Top = 0
+  BorderStyle = bsDialog
   Caption = 'Minha conta - Banco Tech4Money'
-  ClientHeight = 494
-  ClientWidth = 465
+  ClientHeight = 648
+  ClientWidth = 525
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -12
+  Font.Height = -16
   Font.Name = 'Segoe UI'
   Font.Style = []
-  TextHeight = 15
+  Position = poScreenCenter
+  RoundedCorners = rcOn
+  OnCreate = FormCreate
+  TextHeight = 21
   object pnlTop: TPanel
     Left = 0
     Top = 0
-    Width = 465
+    Width = 525
     Height = 56
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 480
     object lblTitulo: TLabel
       AlignWithMargins = True
       Left = 4
-      Top = 4
-      Width = 457
-      Height = 48
-      Align = alClient
+      Top = 35
+      Width = 517
+      Height = 17
+      Align = alBottom
       Alignment = taCenter
-      Caption = 'Bem Vindo! '
+      Caption = 
+        'Para Prosseguir, crie sua conta. Ap'#243's isso, ser'#225' poss'#237'vel Deposi' +
+        'tar e Sacar valores.'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
       Font.Height = 18
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitLeft = 16
-      ExplicitTop = 8
-      ExplicitWidth = 76
-      ExplicitHeight = 17
+      ExplicitWidth = 505
+    end
+    object lblTitulo2: TLabel
+      AlignWithMargins = True
+      Left = 4
+      Top = 4
+      Width = 517
+      Height = 17
+      Align = alTop
+      Alignment = taCenter
+      Caption = 'Bem Vindo ao Banco Tech4Money!'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clNavy
+      Font.Height = 18
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ExplicitWidth = 213
     end
   end
   object grpEntradas: TGroupBox
     Left = 0
     Top = 56
-    Width = 465
-    Height = 153
+    Width = 525
+    Height = 337
     Align = alTop
     TabOrder = 1
-    ExplicitWidth = 1211
     object lblNumeroConta: TLabel
       Left = 24
-      Top = 26
-      Width = 93
-      Height = 15
-      Caption = 'N'#250'mero da conta'
+      Top = 80
+      Width = 60
+      Height = 30
+      Caption = 'Conta:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
     end
     object lblTitular: TLabel
       Left = 24
-      Top = 58
-      Width = 37
-      Height = 15
+      Top = 23
+      Width = 63
+      Height = 30
       Caption = 'Titular:'
-    end
-    object lblValor: TLabel
-      Left = 24
-      Top = 90
-      Width = 53
-      Height = 15
-      Caption = 'Valor (R$):'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
     end
     object lblSaldo: TLabel
-      Left = 24
-      Top = 122
-      Width = 72
-      Height = 15
+      Left = 309
+      Top = 298
+      Width = 194
+      Height = 30
+      Alignment = taRightJustify
       Caption = 'Saldo: R$ 0.00'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
     end
     object edtNumeroConta: TEdit
-      Left = 124
-      Top = 18
+      Left = 106
+      Top = 73
       Width = 120
-      Height = 23
-      TabOrder = 0
-    end
-    object edtTitular: TEdit
-      Left = 124
-      Top = 50
-      Width = 320
-      Height = 23
+      Height = 47
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
       TabOrder = 1
     end
-    object edtValor: TEdit
-      Left = 124
-      Top = 82
+    object edtTitular: TEdit
+      Left = 106
+      Top = 20
+      Width = 397
+      Height = 47
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+    end
+    object btnExibirSaldo: TButton
+      Left = 236
+      Top = 73
+      Width = 135
+      Height = 47
+      Caption = 'Exibir Saldo'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clHighlight
+      Font.Height = -21
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 3
+      OnClick = btnExibirSaldoClick
+    end
+    object btnCriarConta: TButton
+      Left = 383
+      Top = 73
       Width = 120
-      Height = 23
+      Height = 47
+      Caption = 'Criar Conta'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clHighlight
+      Font.Height = -21
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
       TabOrder = 2
+      OnClick = btnCriarContaClick
     end
   end
   object grpBotoes: TGroupBox
     Left = 0
-    Top = 209
-    Width = 465
-    Height = 138
+    Top = 393
+    Width = 525
+    Height = 101
     Align = alClient
     TabOrder = 2
-    ExplicitWidth = 1211
-    ExplicitHeight = 184
-    object btnCriarConta: TButton
-      Left = 16
-      Top = 27
-      Width = 120
-      Height = 32
-      Caption = 'Criar Conta'
-      TabOrder = 0
-      OnClick = btnCriarContaClick
+    ExplicitTop = 368
+    ExplicitHeight = 126
+    object lblValor: TLabel
+      Left = 13
+      Top = 42
+      Width = 87
+      Height = 30
+      Caption = 'Valor(R$):'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lblOperacao: TLabel
+      AlignWithMargins = True
+      Left = 0
+      Top = 6
+      Width = 522
+      Height = 17
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Realizar opera'#231#227'o:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clNavy
+      Font.Height = 18
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
     end
     object btnDepositar: TButton
-      Left = 153
-      Top = 89
+      Left = 249
+      Top = 34
       Width = 120
-      Height = 32
+      Height = 47
       Caption = 'Depositar'
-      TabOrder = 2
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clHighlight
+      Font.Height = -21
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
       OnClick = btnDepositarClick
     end
-    object btnExibirSaldo: TButton
-      Left = 16
-      Top = 89
-      Width = 120
-      Height = 32
-      Caption = 'Exibir Saldo'
-      TabOrder = 1
-      OnClick = btnExibirSaldoClick
-    end
     object btnSacar: TButton
-      Left = 297
-      Top = 89
+      Left = 383
+      Top = 34
       Width = 120
-      Height = 32
+      Height = 47
       Caption = 'Sacar'
-      TabOrder = 3
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clHighlight
+      Font.Height = -21
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 2
       OnClick = btnSacarClick
+    end
+    object edtValor: TEdit
+      Left = 106
+      Top = 34
+      Width = 120
+      Height = 47
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
     end
   end
   object grpRodape: TGroupBox
     Left = 0
-    Top = 347
-    Width = 465
-    Height = 147
+    Top = 494
+    Width = 525
+    Height = 154
     Align = alBottom
     TabOrder = 3
-    ExplicitTop = 888
-    ExplicitWidth = 1211
+    object lbllog: TLabel
+      AlignWithMargins = True
+      Left = 5
+      Top = 5
+      Width = 517
+      Height = 17
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Ultimas movimenta'#231#245'es:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clNavy
+      Font.Height = 18
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
     object MemoLog: TMemo
       Left = 2
-      Top = 17
-      Width = 461
-      Height = 128
-      Align = alClient
-      Lines.Strings = (
-        #218'ltimas Ocorr'#234'ncias:'
-        '')
+      Top = 28
+      Width = 521
+      Height = 124
+      Align = alBottom
       TabOrder = 0
-      ExplicitLeft = 4
-      ExplicitTop = 16
     end
   end
 end

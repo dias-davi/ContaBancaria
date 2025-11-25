@@ -5,49 +5,45 @@ interface
 type
   TContaBancaria = class
   private
-    FNumeroConta: Integer;
-    FTitular: string;
+    FNumero: Integer;
+    FNome: string;
     FSaldo: Double;
   public
-    constructor Create(ANumero: Integer = 0; const ATitular: string = '');
-    procedure Depositar(const pValor: Double);
-    function Sacar(const pValor: Double): Boolean;
-    function ObterSaldo: Double;
-    property NumeroConta: Integer read FNumeroConta write FNumeroConta;
-    property Titular: string read FTitular write FTitular;
+    constructor Create(ANumero: Integer; ANome: string);
+
+    procedure Depositar(AValor: Double);
+    function Sacar(AValor: Double): Boolean;
+
+    property Numero: Integer read FNumero;
+    property Nome: string read FNome;
+    property Saldo: Double read FSaldo write FSaldo;
   end;
 
 implementation
 
 { TContaBancaria }
 
-constructor TContaBancaria.Create(ANumero: Integer; const ATitular: string);
+constructor TContaBancaria.Create(ANumero: Integer; ANome: string);
 begin
-  inherited Create;
-  FNumeroConta := ANumero;
-  FTitular := ATitular;
-  FSaldo := 0.0;
+  FNumero := ANumero;
+  FNome := ANome;
+  FSaldo := 0;
 end;
 
-procedure TContaBancaria.Depositar(const pValor: Double);
+procedure TContaBancaria.Depositar(AValor: Double);
 begin
-  if pValor > 0 then
-    FSaldo := FSaldo + pValor;
+  FSaldo := FSaldo + AValor;
 end;
 
-function TContaBancaria.Sacar(const pValor: Double): Boolean;
+function TContaBancaria.Sacar(AValor: Double): Boolean;
 begin
-  Result := False;
-  if (pValor > 0) and (FSaldo >= pValor) then
+  if AValor <= FSaldo then
   begin
-    FSaldo := FSaldo - pValor;
+    FSaldo := FSaldo - AValor;
     Result := True;
-  end;
-end;
-
-function TContaBancaria.ObterSaldo: Double;
-begin
-  Result := FSaldo;
+  end
+  else
+    Result := False;
 end;
 
 end.

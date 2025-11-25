@@ -4,20 +4,14 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Controls, Vcl.Forms, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Dialogs, Classe.TContaBancaria;
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Data.DB, Datasnap.DBClient, System.Generics.Collections, Classe.TContaBancaria;
 
 type
   TfrmPrincipal = class(TForm)
     pnlTop: TPanel;
     lblTitulo: TLabel;
-    btnCriarConta: TButton;
-    btnDepositar: TButton;
-    btnSacar: TButton;
-    btnExibirSaldo: TButton;
-    MemoLog: TMemo;
     grpEntradas: TGroupBox;
-    grpBotoes: TGroupBox;
-    grpRodape: TGroupBox;
     lblNumeroConta: TLabel;
     lblTitular: TLabel;
     lblValor: TLabel;
@@ -25,19 +19,33 @@ type
     edtNumeroConta: TEdit;
     edtTitular: TEdit;
     edtValor: TEdit;
+    grpBotoes: TGroupBox;
+    btnCriarConta: TButton;
+    btnDepositar: TButton;
+    btnExibirSaldo: TButton;
+    btnSacar: TButton;
+    grpRodape: TGroupBox;
+    MemoLog: TMemo;
+    lblTitulo2: TLabel;
+    lbllog: TLabel;
+    lblOperacao: TLabel;
+
+    procedure FormCreate(Sender: TObject);
     procedure btnCriarContaClick(Sender: TObject);
+    procedure btnExibirSaldoClick(Sender: TObject);
     procedure btnDepositarClick(Sender: TObject);
     procedure btnSacarClick(Sender: TObject);
-    procedure btnExibirSaldoClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
+
+
   private
+    FContaAtiva: TContaBancaria;
+    FContas: TObjectDictionary<Integer, TContaBancaria>;
+    cdsContas: TClientDataSet;
 
-    FConta: TContaBancaria;
-    procedure Log(const AMsg: string);
-    procedure AtualizarSaldoLabel;
-  public
-
+    procedure Log(const Msg: string);
+    procedure AtualizarSaldo;
+    procedure CarregarConta(NumeroConta: Integer);
+    procedure LimparValores();
   end;
 
 var
@@ -50,122 +58,169 @@ implementation
 
 procedure TfrmPrincipal.FormCreate(Sender: TObject);
 begin
-
-  FConta := nil;
-  lblSaldo.Caption := 'Saldo: R$ 0.00';
-  MemoLog.Enabled:= False;
-  MemoLog.Lines.Clear;
   MemoLog.Clear;
+
+  lblSaldo.Visible := False;
+
+  edtValor.Enabled := False;
+
+  FContas := TObjectDictionary<Integer, TContaBancaria>.Create([doOwnsValues]);
+
+  cdsContas := TClientDataSet.Create(nil);
+  with cdsContas.FieldDefs do
+  begin
+    Add('Numero', ftInteger);
+    Add('Nome', ftString, 80);
+    Add('Saldo', ftFloat);
+  end;
+  cdsContas.CreateDataSet;
+
   Log('Aplicação iniciada.');
 end;
 
-procedure TfrmPrincipal.FormDestroy(Sender: TObject);
+
+procedure TfrmPrincipal.LimparValores;
 begin
-  FConta.Free;
+  edtValor.Text := '';
+  lblSaldo.Visible := False
 end;
 
-procedure TfrmPrincipal.Log(const AMsg: string);
+procedure TfrmPrincipal.Log(const Msg: string);
 begin
-  MemoLog.Lines.Add(FormatDateTime('hh:nn:ss', Now) + ' - ' + AMsg);
+  MemoLog.Lines.Add(FormatDateTime('[hh:nn] ', Now) + Msg);
 end;
 
-procedure TfrmPrincipal.AtualizarSaldoLabel;
+procedure TfrmPrincipal.AtualizarSaldo;
 begin
-  if Assigned(FConta) then
-    lblSaldo.Caption := 'Saldo: R$ ' + FormatFloat('0.00', FConta.ObterSaldo)
+  if Assigned(FContaAtiva) then
+    lblSaldo.Caption := Format('Saldo: R$ %.2f', [FContaAtiva.Saldo])
   else
     lblSaldo.Caption := 'Saldo: R$ 0.00';
 end;
 
+procedure TfrmPrincipal.CarregarConta(NumeroConta: Integer);
+begin
+  if not FContas.ContainsKey(NumeroConta) then
+  begin
+    Log('Conta não encontrada.');
+    Exit;
+  end;
+
+  FContaAtiva := FContas[NumeroConta];
+
+  edtValor.Enabled := True;
+
+  edtNumeroConta.Text := IntToStr(FContaAtiva.Numero);
+  edtTitular.Text := FContaAtiva.Nome;
+
+  AtualizarSaldo;
+
+  Log('Conta carregada: ' + FContaAtiva.Nome);
+end;
+
 procedure TfrmPrincipal.btnCriarContaClick(Sender: TObject);
 var
-  LNum: Integer;
-  LNome: string;
+  NumeroConta: Integer;
+  NomeTitular: string;
 begin
-  if not TryStrToInt(Trim(edtNumeroConta.Text), LNum) or (LNum <= 0) then
+  if not TryStrToInt(edtNumeroConta.Text, NumeroConta) then
   begin
-    ShowMessage('Informe um número de conta válido (inteiro maior que 0).');
-    edtNumeroConta.SetFocus;
+    Log('Número da conta inválido.');
     Exit;
   end;
 
-  LNome := Trim(edtTitular.Text);
-  if LNome = '' then
+  NomeTitular := Trim(edtTitular.Text);
+  if NomeTitular = '' then
   begin
-    ShowMessage('Informe o nome do titular.');
-    edtTitular.SetFocus;
+    Log('O nome do titular é obrigatório.');
     Exit;
   end;
 
-  FConta.Free;
+  if FContas.ContainsKey(NumeroConta) then
+  begin
+    CarregarConta(NumeroConta);
+    Log('Conta já existente carregada.');
+    Exit;
+  end;
+  FContas.Add(NumeroConta, TContaBancaria.Create(NumeroConta, NomeTitular));
 
-  FConta := TContaBancaria.Create(LNum, LNome);
-  Log(Format('Conta %d criada para %s', [LNum, LNome]));
-  AtualizarSaldoLabel;
+  CarregarConta(NumeroConta);
+
+  cdsContas.Append;
+  cdsContas.FieldByName('Numero').AsInteger := NumeroConta;
+  cdsContas.FieldByName('Nome').AsString := NomeTitular;
+  cdsContas.FieldByName('Saldo').AsFloat := 0;
+  cdsContas.Post;
+
+  AtualizarSaldo;
+
+  Log('Conta criada com sucesso: ' + NomeTitular);
 end;
 
 procedure TfrmPrincipal.btnDepositarClick(Sender: TObject);
 var
-  LValor: Double;
+  ValorDeposito: Double;
 begin
-  if not Assigned(FConta) then
+  if not Assigned(FContaAtiva) then
   begin
-    ShowMessage('Crie uma conta antes de depositar.');
+    Log('Nenhuma conta selecionada.');
     Exit;
   end;
 
-  if not TryStrToFloat(Trim(edtValor.Text), LValor) or (LValor <= 0) then
+  if not TryStrToFloat(edtValor.Text, ValorDeposito) then
   begin
-    ShowMessage('Informe um valor de depósito válido (número maior que zero).');
-    edtValor.SetFocus;
+    Log('Valor inválido.');
     Exit;
   end;
 
-  FConta.Depositar(LValor);
-  Log(Format('Depósito: R$ %s', [FormatFloat('0.00', LValor)]));
-  AtualizarSaldoLabel;
-end;
-
-procedure TfrmPrincipal.btnSacarClick(Sender: TObject);
-var
-  LValor: Double;
-begin
-  if not Assigned(FConta) then
+  if ValorDeposito <= 0 then
   begin
-    ShowMessage('Crie uma conta antes de sacar.');
+    Log('Digite um valor maior que zero.');
     Exit;
   end;
 
-  if not TryStrToFloat(Trim(edtValor.Text), LValor) or (LValor <= 0) then
-  begin
-    ShowMessage('Informe um valor de saque válido (número maior que zero).');
-    edtValor.SetFocus;
-    Exit;
-  end;
+  FContaAtiva.Depositar(ValorDeposito);
+  LimparValores();
+  AtualizarSaldo;
 
-  if not FConta.Sacar(LValor) then
-  begin
-    ShowMessage('Saldo insuficiente para saque.');
-    Log(Format('Tentativa de saque falhou: R$ %s (Saldo atual: R$ %s)', [
-      FormatFloat('0.00', LValor), FormatFloat('0.00', FConta.ObterSaldo)]));
-    Exit;
-  end;
-
-  Log(Format('Saque: R$ %s', [FormatFloat('0.00', LValor)]));
-  AtualizarSaldoLabel;
+  Log(Format('Depósito de R$ %.2f realizado.', [ValorDeposito]));
 end;
 
 procedure TfrmPrincipal.btnExibirSaldoClick(Sender: TObject);
 begin
-  if not Assigned(FConta) then
+  if Assigned(FContaAtiva) then
+    begin
+      Log(Format('Saldo atual: R$ %.2f', [FContaAtiva.Saldo]));
+      lblSaldo.Visible:=True;
+    end
+  else
+    Log('Nenhuma conta selecionada.');
+end;
+
+procedure TfrmPrincipal.btnSacarClick(Sender: TObject);
+var
+  ValorSaque: Double;
+begin
+  if not Assigned(FContaAtiva) then
   begin
-    ShowMessage('Crie uma conta primeiro.');
+    Log('Nenhuma conta selecionada.');
     Exit;
   end;
 
-  ShowMessage('Saldo atual: R$ ' + FormatFloat('0.00', FConta.ObterSaldo));
-  Log('Saldo exibido.');
-  AtualizarSaldoLabel;
+  if not TryStrToFloat(edtValor.Text, ValorSaque) then
+  begin
+    Log('Valor inválido.');
+    Exit;
+  end;
+
+  if FContaAtiva.Sacar(ValorSaque) then
+  begin
+    AtualizarSaldo;
+    LimparValores();
+    Log(Format('Saque de R$ %.2f realizado.', [ValorSaque]));
+  end
+  else
+    Log('Saldo insuficiente.');
 end;
 
 end.
