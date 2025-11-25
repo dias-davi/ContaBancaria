@@ -10,8 +10,11 @@
     <Transaction>2025/11/24 23:43:44.000.294,C:\Users\davi_\OneDrive\Área de Trabalho\Projetos\AvaliacaoTech4Jobs\ContaBanco\src\MainForm.dfm=C:\Users\davi_\OneDrive\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
     <Transaction>2025/11/24 23:43:44.000.294,C:\Users\davi_\OneDrive\Área de Trabalho\Projetos\AvaliacaoTech4Jobs\ContaBanco\src\MainForm.pas=C:\Users\davi_\OneDrive\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>2025/11/24 23:46:33.000.978,C:\Users\davi_\OneDrive\Área de Trabalho\Projetos\AvaliacaoTech4Jobs\ContaBanco\src\Project1.dproj=C:\Users\davi_\OneDrive\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
-    <Transaction>2025/11/25 00:17:57.152,C:\Users\davi_\OneDrive\Área de Trabalho\Projetos\AvaliacaoTech4Jobs\ContaBanco\src\Tela.Principal.pas=C:\Users\davi_\OneDrive\Área de Trabalho\Projetos\AvaliacaoTech4Jobs\ContaBanco\src\MainForm.pas</Transaction>
     <Transaction>2025/11/25 00:17:57.152,C:\Users\davi_\OneDrive\Área de Trabalho\Projetos\AvaliacaoTech4Jobs\ContaBanco\src\Tela.Principal.dfm=C:\Users\davi_\OneDrive\Área de Trabalho\Projetos\AvaliacaoTech4Jobs\ContaBanco\src\MainForm.dfm</Transaction>
+    <Transaction>2025/11/25 00:17:57.152,C:\Users\davi_\OneDrive\Área de Trabalho\Projetos\AvaliacaoTech4Jobs\ContaBanco\src\Tela.Principal.pas=C:\Users\davi_\OneDrive\Área de Trabalho\Projetos\AvaliacaoTech4Jobs\ContaBanco\src\MainForm.pas</Transaction>
     <Transaction>2025/11/25 00:19:43.752,C:\Users\davi_\OneDrive\Área de Trabalho\Projetos\AvaliacaoTech4Jobs\ContaBancaria\Tech4Money.dproj=C:\Users\davi_\OneDrive\Área de Trabalho\Projetos\AvaliacaoTech4Jobs\ContaBanco\src\Project1.dproj</Transaction>
+    <Transaction>2025/11/25 00:20:04.270,C:\Users\davi_\OneDrive\Área de Trabalho\Projetos\AvaliacaoTech4Jobs\ContaBancaria\src\Tela.Principal.dfm=C:\Users\davi_\OneDrive\Área de Trabalho\Projetos\AvaliacaoTech4Jobs\ContaBanco\src\Tela.Principal.dfm</Transaction>
+    <Transaction>2025/11/25 00:20:04.270,C:\Users\davi_\OneDrive\Área de Trabalho\Projetos\AvaliacaoTech4Jobs\ContaBancaria\src\Tela.Principal.pas=C:\Users\davi_\OneDrive\Área de Trabalho\Projetos\AvaliacaoTech4Jobs\ContaBanco\src\Tela.Principal.pas</Transaction>
+    <Transaction>2025/11/25 00:20:17.197,C:\Users\davi_\OneDrive\Área de Trabalho\Projetos\AvaliacaoTech4Jobs\ContaBancaria\src\Classe.TContaBancaria.pas=C:\Users\davi_\OneDrive\Área de Trabalho\Projetos\AvaliacaoTech4Jobs\ContaBanco\src\Classe.TContaBancaria.pas</Transaction>
   </Transactions>
 </BorlandProject>

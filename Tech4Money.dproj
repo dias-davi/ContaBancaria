@@ -123,11 +123,11 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="..\ContaBanco\src\Tela.Principal.pas">
+        <DCCReference Include="src\Tela.Principal.pas">
             <Form>frmPrincipal</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\ContaBanco\src\Classe.TContaBancaria.pas"/>
+        <DCCReference Include="src\Classe.TContaBancaria.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
